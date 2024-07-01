@@ -1,0 +1,95 @@
+﻿<script type="text/javascript">
+
+    function sendSimpleMessage() {
+        var userMsg = $("#userMessage").val();
+
+        $("#chatBox").append("<p>🧑 User :<br/> " + userMsg + "</p>");
+
+        $("#loading_gif").show();
+
+        scrollDivToBottom();
+
+        $.ajax({
+            url: "/Simple/GetChatKernelResponse",
+            type: "POST",
+            data: {
+                userMessage: userMsg
+            },
+            success: function (data) {
+                data = data.replace(/\n{2,}/g, "<br><br>");
+                data = data.replace(/\n/g, "<br>");
+                $("#chatBox").append("<p>🤖 Assistant :<br/>" + data + "</p>");
+                $("#loading_gif").hide();
+                scrollDivToBottom();
+            },
+            error: function (xhr, status, error) {
+                $("#chatBox").append("<p style='color:red;'>Error: " + error + "</p>");
+                $("#loading_gif").hide();
+                scrollDivToBottom();
+            }
+        });
+    }
+
+    function sendMessage() {
+        var userMsg = $("#userMessage").val();
+        var tone = $("#tone").val();
+
+        $("#chatBox").append("<p>🧑 User :<br/> " + userMsg + "</p>");
+
+        $("#loading_gif").show();
+
+        scrollDivToBottom();
+
+        $.ajax({
+            url: "/ChatPromptFolder/GetChatKernelResponse",
+            type: "POST",
+            data: {
+                userMessage: userMsg,
+                userTone: tone
+            },
+            success: function (data) {
+                data = data.replace(/\n{2,}/g, "<br><br>");
+                data = data.replace(/\n/g, "<br>");
+                $("#chatBox").append("<p>🤖 Assistant :<br/>" + data + "</p>");
+                $("#loading_gif").hide();
+                scrollDivToBottom();
+            },
+            error: function (xhr, status, error) {
+                $("#chatBox").append("<p style='color:red;'>Error: " + error + "</p>");
+                $("#loading_gif").hide();
+                scrollDivToBottom();
+            }
+        });
+    }
+
+    function scrollDivToBottom() {
+        var objDiv = document.getElementById("chatBox");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+</script>
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="chatBox" style="text-align:justify; height: 500px; overflow-y:scroll;">
+    <b>Hi !! I am a chatbot. How can I help you?</b>
+    <hr/>
+</div>
+
+<div id="loading_gif" style="display: none; text-align: left;">
+    <img src="~/css/loading_icon.gif" style="width: 8%; height: 8%;" alt="Loading icon" />
+    <span>Fetching information ...</span>
+</div>
+
+<hr/>
+<input type="text" id="userMessage" size="80" />
+<span>Tone: </span>
+<select name="tone" id="tone">
+    <option value="angry">Angry</option>
+    <option value="polite">Polite</option>
+    <option value="sarcastic">Sarcastic</option>
+    <option value="sad">Sad</option>
+</select>
+<button onclick="sendMessage()">Send</button>

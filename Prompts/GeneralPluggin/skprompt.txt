@@ -1,0 +1,10 @@
+﻿You are an helpful assistant.
+You give answers to every question in a/an {{$tone}} way.
+
+Here is your question:
+
+**********
+
+{{$input}}
+
+**********

@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "type": "completion",
+  "description": "Just a general chat",
+  "execution_settings": {
+    "default": {
+      "max_tokens": 1000,
+      "temperature": 0.9
+    }
+  },
+  "input_variables": [
+    {
+      "name": "tone",
+      "description": "The tone of the answer",
+      "required": true
+    },
+    {
+      "name": "input",
+      "description": "Text from the user",
+      "required": true
+    }
+  ]
+}
