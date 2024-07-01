@@ -1,0 +1,47 @@
+﻿<script type="text/javascript">
+
+    function sendMessage(){
+        var jd = $("#txtJd").val();
+
+        $("#spanResult").text("");
+
+        $("#loading_gif").show();
+
+        $.ajax({
+            url: "/ATSChecker/MatchCandidateProfileScore",
+            type: "POST",
+            data: {
+                strJD: jd
+            },
+            success: function (data) {
+                data = data.replace(/\n{2,}/g, "<br>");
+                data = data.replace(/\n/g, "<br>");
+                $("#spanResult").html("<p>🤖 Assistant :<br/>" + data + "</p>");
+                $("#loading_gif").hide();
+                scrollDivToBottom();
+            },
+            error: function (xhr, status, error) {
+                $("#spanResult").html("<p style='color:red;'>Error: " + error + "</p>");
+                $("#loading_gif").hide();
+                scrollDivToBottom();
+            }
+        });
+    }
+
+</script>
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<hr/>
+<textarea id="txtJd" name="txtJd" rows="10" cols="100"></textarea>
+<span id="spanResult"></span>
+<br/>
+<button onclick="sendMessage()">Send</button>
+
+<div id="loading_gif" style="display: none; text-align: left;">
+    <img src="~/css/loading_icon.gif" style="width: 8%; height: 8%;" alt="Loading icon" />
+    <span>Fetching information ...</span>
+</div>
