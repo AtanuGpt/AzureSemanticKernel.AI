@@ -14,15 +14,22 @@
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.15.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Core" Version="1.15.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.15.0-alpha" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Prompts\CloudPluggin\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Prompts\GeneralPluggin\config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Prompts\CloudPluggin\skprompt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Prompts\GeneralPluggin\skprompt.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
