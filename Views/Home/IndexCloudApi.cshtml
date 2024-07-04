@@ -1,0 +1,55 @@
+﻿<script type="text/javascript">   
+
+    function sendMessage() {
+        var userMsg = $("#userMessage").val();
+        var tone = $("#tone").val();
+
+        $("#chatBox").append("<p>🧑 User :<br/> " + userMsg + "</p>");
+
+        $("#loading_gif").show();
+
+        scrollDivToBottom();
+
+        $.ajax({
+            url: "/CloudApi/GetResponse",
+            type: "POST",
+            data: {
+                userQuestion: userMsg
+            },
+            success: function (data) {
+                $("#chatBox").append("<p>🤖 Assistant :<br/>" + data + "</p>");
+                $("#loading_gif").hide();
+                scrollDivToBottom();
+            },
+            error: function (xhr, status, error) {
+                $("#chatBox").append("<p style='color:red;'>Error: " + error + "</p>");
+                $("#loading_gif").hide();
+                scrollDivToBottom();
+            }
+        });
+    }
+
+    function scrollDivToBottom() {
+        var objDiv = document.getElementById("chatBox");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+</script>
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="chatBox" style="text-align:justify; height: 500px; overflow-y:scroll;">
+    <b>Hi !! I am a chatbot. How can I help you?</b>
+    <hr/>
+</div>
+
+<div id="loading_gif" style="display: none; text-align: left;">
+    <img src="~/css/loading_icon.gif" style="width: 8%; height: 8%;" alt="Loading icon" />
+    <span>Fetching information ...</span>
+</div>
+
+<hr/>
+<input type="text" id="userMessage" size="80" />
+<button onclick="sendMessage()">Send</button>
