@@ -1,0 +1,69 @@
+﻿<script type="text/javascript">
+
+    function sendMessage(){
+        var userMsg = $("#userMessage").val();
+
+        $("#chatBox").append("<p>🧑 User :<br/> " + userMsg + "</p>");
+
+        $("#loading_gif").show();
+
+        $.ajax({
+            url: "/TextToSpeech/GetTextReponse",
+            type: "GET",
+            data: {
+                userMessage: userMsg
+            },
+            success: function (data) {
+                data = data.replace(/\n{2,}/g, "<br>");
+                data = data.replace(/\n/g, "<br>");
+                $("#chatBox").append("<p>🤖 Assistant :<br/>" + data + "</p>");
+                $("#loading_gif").hide();
+                invoikeResultAudiio(data);
+            },
+            error: function (xhr, status, error) {
+                $("#chatBox").append("<p style='color:red;'>Error: " + error + "</p>");
+                $("#loading_gif").hide();
+                scrollDivToBottom();
+            }
+        });
+
+        $("#userMessage").val("");
+    }
+
+    function invoikeResultAudiio(result) {
+        $.ajax({
+            url: "/TextToSpeech/GetAudioReponse",
+            type: "GET",
+            data: {
+                result: result
+            },
+            success: function (data) {
+                $("#loading_gif").hide();
+            },
+            error: function (xhr, status, error) {
+                $("#loading_gif").hide();
+            }
+        });
+    }
+
+</script>
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<br />
+<b>Hi !! I am a chatbot. Please as your question and I would try to answer back with both text and audio 😊</b>
+<hr />
+
+<div id="chatBox" style="text-align:justify; height:480px; overflow-y:scroll; white-space:pre-wrap"></div>
+
+<div id="loading_gif" style="display: none; text-align: left;">
+    <img src="~/css/loading_icon.gif" style="width: 8%; height: 8%;" alt="Loading icon" />
+    <span>Fetching information ...</span>
+</div>
+
+<hr />
+<input type="text" id="userMessage" size="120" />
+<button onclick="sendMessage()">Send</button>
