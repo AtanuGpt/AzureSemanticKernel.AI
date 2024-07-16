@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.0.0" />
     <PackageReference Include="iTextSharp" Version="5.5.13.4" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.38.0" />
     <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.65.240620.1" />
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.15.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.15.0" />
